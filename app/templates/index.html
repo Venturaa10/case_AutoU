@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email NLP</title>
+    <!-- Importar o Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center p-6">
+
+    <div class="bg-white shadow-xl rounded-xl p-10 w-full max-w-xl">
+        <h1 class="text-3xl font-bold text-gray-800 mb-6 text-center">
+            Classificador de Texto
+        </h1>
+
+       <form action="/process" method="POST" enctype="multipart/form-data" class="space-y-6">
+
+    <!-- Upload de arquivo -->
+    <div>
+        <label class="block text-gray-700 font-medium mb-2">
+            Enviar arquivo (.pdf ou .txt):
+        </label>
+        <input 
+            type="file" 
+            name="file"
+            accept=".pdf,.txt"
+            class="w-full p-3 border rounded-lg bg-white"
+        >
+    </div>
+
+    <!-- Texto manual -->
+    <div>
+        <label class="block text-gray-700 font-medium mb-2">
+            Texto do email:
+        </label>
+        <textarea 
+            name="email_text"
+            class="w-full p-3 border rounded-lg focus:ring focus:ring-blue-300"
+            rows="5"
+
+        ></textarea>
+    </div>
+
+    <button 
+        type="submit"
+        class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg transition"
+    >
+        Processar Email
+    </button>
+</form>
+
+    </div>
+
+</body>
+</html>
