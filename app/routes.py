@@ -1,15 +1,11 @@
 # Contém as rotas:
-
 # página inicial
-
 # upload
-
 # processamento
-
 # exibição do resultado
 
 from flask import Blueprint, render_template, request
-from app.utils.nlp import extract_text_from_file, classify_text, generate_reply
+from app.utils.nlp import extract_text_from_file, classify_and_reply
 
 bp = Blueprint("main", __name__)
 
@@ -17,12 +13,13 @@ bp = Blueprint("main", __name__)
 def index():
     return render_template("index.html")
 
+
 @bp.route("/process", methods=["POST"])
 def process_email():
-    # Texto inicial
+    # Texto enviado manualmente
     text = request.form.get("email_text", "").strip()
 
-    # Se não veio texto manual, tenta arquivo
+    # Se o texto não veio, tenta arquivo
     if not text:
         file = request.files.get("file")
         if file and file.filename.strip():
@@ -31,10 +28,15 @@ def process_email():
     if not text:
         return render_template("index.html", error="Por favor, envie um arquivo ou cole o texto.")
 
-    # Classificar
-    category = classify_text(text)
+    # Nova função única (Gemini)
+    result = classify_and_reply(text)
 
-    # Gerar resposta automática
-    suggestion = generate_reply(text, category)
+    category = result.get("categoria", "Indefinido")
+    suggestion = result.get("resposta", "Não foi possível gerar resposta.")
 
-    return render_template("result.html", text=text, category=category, suggestion=suggestion)
+    return render_template(
+        "result.html",
+        text=text,
+        category=category,
+        suggestion=suggestion
+    )
