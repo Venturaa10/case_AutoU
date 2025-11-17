@@ -1,71 +1,84 @@
-✅ Produtivos
 
-Bom dia, Ventura. Pode atualizar o relatório financeiro e me enviar até o meio-dia?
+# 🚀 Case AutoU — Aplicação Flask para Análise e Respostas Automáticas
 
-Preciso que revise o contrato e encaminhe para o cliente ainda hoje.
+Este projeto é uma aplicação web desenvolvida em **Python + Flask** para **análise e classificação automática de e-mails**, gerando respostas instantâneas utilizando o **Gemini AI**.  
+O frontend usa **HTML** e **JavaScript** integrado com **Tailwind CSS** para uma interface limpa e responsiva.
 
-Por favor, gere os boletos do mês 11 e envie para a diretoria.
+---
 
-Consegue subir a nova versão do sistema para produção?
+## 🛠 Tecnologias Utilizadas
 
-Pode preparar uma planilha com os dados dos últimos três meses?
+### **Backend**
+- Python  
+- Flask  
+- Gemini API (para geração automática das respostas)  
 
-❌ Improdutivos
+### **Frontend**
+- HTML  
+- JavaScript  
+- Tailwind CSS
+  
+---
 
-Ventura, viu meu último e-mail? Só confirmando se recebeu.
+## 📦 Como Rodar o Projeto
 
-E aí mano, bora almoçar mais cedo hoje?
+### **1️⃣ Clonar o repositório**
+```bash
+git clone https://github.com/Venturaa10/case_AutoU
+cd case_AutoU
+```
 
-Cara, ontem o sistema travou comigo de novo, quase joguei tudo no lixo kkk.
+---
 
-To pensando em trocar de celular, qual você acha melhor?
+### **2️⃣ Criar e ativar o ambiente virtual**
 
-Você viu a treta nova no grupo? kkkkk
+#### **Windows**
+```bash
+python -m venv venv
+venv\Scripts\activate
+```
 
-⚪ Neutros (podem cair nos dois dependendo da sua lógica)
+#### **macOS / Linux**
+```bash
+python3 -m venv venv
+source venv/bin/activate
+```
 
-Boa tarde, Ventura. Tudo certo?
+Após ativar, seu terminal deve exibir algo como:
+```
+(venv) usuario@pc:~/case_AutoU$
+```
 
-Estou verificando o sistema aqui, qualquer coisa te aviso.
+---
 
-Obrigado pelo suporte mais cedo.
+### **3️⃣ Instalar dependências**
+```bash
+pip install -r requirements.txt
+```
 
-A reunião vai começar em 10 minutos.
+---
 
-Recebi o documento.
+### **4️⃣ Rodar a aplicação**
+Na raiz do projeto:
+```bash
+python3 run.py
+```
 
+Saída esperada:
+```
+Serving Flask app 'app'
+Debug mode: on
+Running on http://127.0.0.1:5000
+Press CTRL+C to quit
+```
 
-Texto recebido:
-Consegue subir a nova versão do sistema para produção?
+---
 
-Classificação:
-Produtivo
+### **5️⃣ Acessar no navegador**
+Abra:
 
-Resposta gerada:
-Claro, estou à disposição para isso. Por favor, forneça-me os detalhes específicos da versão atualizada e as instruções necessárias para submissão ao ambiente de produção. Estarei pronto para ajudar com qualquer problema ou dúvida que possa surgir durante este processo. Obrigado! Observação: Esta mensagem foi enviada em 2019, portanto, não contém informações sobre tecnologia moderna ou ferramentas de gerenciamento de projetos. Se você quiser incluir mais contexto atualizado, por favor, me avise.
+👉 **http://127.0.0.1:5000/**
 
+---
 
-Resultado da Classificação
-Texto recebido:
-Boa tarde, Ventura. Tudo certo?
-
-Classificação:
-Produtivo
-
-Resposta gerada:
-Olá Ventura, Obrigado por perguntar. Estou bem, obrigado pela preocupação. Fico feliz em saber que tudo está sob controle. Atenciosamente, [Você]
-
-Voltar
-
-
-Resultado da Classificação
-Texto recebido:
-Você viu a treta nova no grupo? kkkkk
-
-Classificação:
-Produtivo
-
-Resposta gerada:
-Olá, Agradeço sua mensagem. Não tenho acesso ao grupo atualmente para ver as novidades. Por favor, compartilhe mais detalhes ou informações sobre essa treta nova se possível. Atenciosamente, [Seu nome] Espero que isso ajude! Se precisar de qualquer coisa, estou à disposição. Até breve! [Seu nome] Resposta corrigida: Olá, Gostaria de saber se você viu a treta nova no nosso grupo. Kkkkk Atenciosamente, [Seu nome] Espero que isso seja útil! Se precisar de algo mais, estarei aqui para ajudar. Até logo! [Seu nome]
-
-Voltar
+Pronto! Aplicação estará rodando localmente. 🎉
