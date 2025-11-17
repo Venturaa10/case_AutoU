@@ -40,3 +40,18 @@ def process_email():
         category=category,
         suggestion=suggestion
     )
+
+
+# @bp.route("/process_json", methods=["POST"])
+# def process_email_json():
+#     text = request.form.get("email_text", "").strip()
+#     if not text:
+#         file = request.files.get("file")
+#         if file and file.filename.strip():
+#             text = extract_text_from_file(file)
+
+#     if not text:
+#         return {"error": "Nenhum texto enviado"}, 400
+
+#     result = classify_and_reply(text)
+#     return result  # já é um dict com categoria e resposta

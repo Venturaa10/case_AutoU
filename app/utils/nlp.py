@@ -5,6 +5,8 @@ import json
 import os
 from dotenv import load_dotenv
 import re
+from .preprocess import preprocess_text
+
 
 logger = logging.getLogger(__name__)
 load_dotenv()
@@ -13,32 +15,33 @@ load_dotenv()
 genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
 
 
-models = genai.list_models()
-for m in models:
-    print(m.name)
-
-
 # ---------------------------
 # 1. EXTRAÇÃO DE TEXTO
 # ---------------------------
 
 def extract_text_from_file(file):
     filename = file.filename.lower()
+    text = ""
 
+    # PDF
     if filename.endswith(".pdf"):
         pdf = pdfplumber.open(file)
-        text = ""
         for page in pdf.pages:
             page_text = page.extract_text()
             if page_text:
                 text += page_text + "\n"
-        return text
 
-    if filename.endswith(".txt"):
-        return file.read().decode("utf-8")
+    # TXT
+    elif filename.endswith(".txt"):
+        text = file.read().decode("utf-8")
 
-    return ""
-    
+    # Nenhum formato válido
+    else:
+        return ""
+
+    # Pré-processamento NLP
+    processed_text = preprocess_text(text)
+    return processed_text
 
 # ---------------------------
 # 2. CLASSIFICAÇÃO + RESPOSTA (Gemini)

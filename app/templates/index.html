@@ -11,10 +11,10 @@
 
     <div class="bg-white shadow-xl rounded-xl p-10 w-full max-w-xl">
         <h1 class="text-3xl font-bold text-gray-800 mb-6 text-center">
-            Classificador de Texto
+            Classificador de Email
         </h1>
 
-       <form action="/process" method="POST" enctype="multipart/form-data" class="space-y-6">
+<form action="/process" method="POST" enctype="multipart/form-data" class="space-y-6" onsubmit="showLoader()">
 
     <!-- Upload de arquivo -->
     <div>
@@ -41,15 +41,30 @@
         ></textarea>
     </div>
 
-    <button 
-        type="submit"
-        class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg transition"
-    >
-        Processar Email
-    </button>
+
+<button 
+    type="submit"
+    class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg transition"
+    id="submitBtn"
+>
+    <span id="btnText">Processar Email</span>
+</button>
+
 </form>
 
     </div>
 
 </body>
 </html>
+
+<script>
+const form = document.querySelector('form');
+
+form.addEventListener('submit', () => {
+    const btn = document.getElementById('submitBtn');
+    const text = document.getElementById('btnText');
+
+    btn.disabled = true;          // desabilita o botão
+    text.textContent = "Processando..."; // altera o texto
+});
+</script>
