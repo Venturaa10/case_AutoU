@@ -20,16 +20,13 @@ def index():
 @bp.route("/process", methods=["POST"])
 def process_email():
     # Texto inicial
-    text = ""
+    text = request.form.get("email_text", "").strip()
 
-    # Verifica se veio arquivo
-    file = request.files.get("file")
-    if file and file.filename != "":
-        text = extract_text_from_file(file)
-
-    # Ou texto colado pelo usuário
+    # Se não veio texto manual, tenta arquivo
     if not text:
-        text = request.form.get("email_text", "").strip()
+        file = request.files.get("file")
+        if file and file.filename.strip():
+            text = extract_text_from_file(file)
 
     if not text:
         return render_template("index.html", error="Por favor, envie um arquivo ou cole o texto.")

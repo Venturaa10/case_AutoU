@@ -1,5 +1,6 @@
 import pdfplumber
 from transformers import pipeline
+from .preprocess import preprocess_text
 import logging
 logger = logging.getLogger(__name__)
 import re
@@ -35,20 +36,18 @@ classifier = pipeline("zero-shot-classification",
                       model="facebook/bart-large-mnli")
 
 
-def clean_text(text):
-    text = text.lower()
-    text = re.sub(r"\s+", " ", text)
-    return text.strip()
-
 def classify_text(text):
-    text_clean = clean_text(text)
-    
+    # Pré-processamento REAL (stopwords, lematização etc.)
+    processed_text = preprocess_text(text)
+
+    # Labels do modelo zero-shot
     labels = [
         "É um pedido de tarefa ou solicitação de trabalho",
         "É apenas uma conversa informal, sem solicitação de tarefa"
     ]
 
-    result = classifier(text_clean, candidate_labels=labels)
+    # Classificação (usando o texto pré-processado)
+    result = classifier(processed_text, candidate_labels=labels)
 
     logger.debug(f"{result}")
 
@@ -69,45 +68,37 @@ def classify_text(text):
 # ---------------------------
 # 3. GERAR RESPOSTA AUTOMÁTICA (HuggingFace)
 # ---------------------------
-
-generator = pipeline("text2text-generation",
-                     model="google/flan-t5-base")
-
 def generate_reply(text, category):
+    generator = pipeline(
+        "text-generation",
+        model="Qwen/Qwen2.5-1.5B-Instruct",
+        device_map="auto",
+        max_new_tokens=100,
+        temperature=0.2,
+        top_p=0.9
+    )
+
+    if category == "Produtivo":
+        tone = "direto e profissional"
+    elif category == "Improdutivo":
+        tone = "leve e cordial"
+    else:
+        tone = "neutro e educado"
+
     prompt = f"""
-Você é um assistente que responde emails de forma objetiva, educada e profissional.
-Sempre responda em português do Brasil.
-Não repita o texto original. Não explique nada. Apenas gere a resposta final.
-
-Aqui estão alguns exemplos de boa resposta:
-
-[Exemplo 1 — Pedido Produtivo]
-Email original:
-"Você pode enviar o relatório atualizado ainda hoje?"
-Resposta:
-"Claro! Vou gerar e enviar o relatório atualizado ainda hoje."
-
-[Exemplo 2 — Produtivo]
-Email original:
-"Preciso que gere os boletos do mês passado."
-Resposta:
-"Sem problemas, vou gerar os boletos do mês passado e te envio em seguida."
-
-[Exemplo 3 — Improdutivo]
-Email original:
-"Bom dia! Tudo bem? Como foi seu final de semana?"
-Resposta:
-"Bom dia! Tudo ótimo por aqui, e você? :)"
-
-Agora responda o email abaixo:
-
-Categoria: {category}
+Responda ao e-mail abaixo de forma {tone}.
+Não repita o texto original. Apenas escreva a resposta final, curta e objetiva.
 
 Email:
-\"\"\"{text}\"\"\"
+{text}
 
 Resposta:
 """
 
-    result = generator(prompt, max_length=200)
-    return result[0]["generated_text"].strip()
+    output = generator(prompt)[0]["generated_text"]
+
+    # remove tudo antes de "Resposta:" caso o modelo repita
+    if "Resposta:" in output:
+        output = output.split("Resposta:")[-1].strip()
+
+    return output
