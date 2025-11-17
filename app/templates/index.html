@@ -14,6 +14,12 @@
             Classificador de Email
         </h1>
 
+    {% if error %}
+    <div class="mb-4 p-4 text-red-700  rounded-lg text-center">
+        {{ error }}
+    </div>
+    {% endif %}
+
 <form action="/process" method="POST" enctype="multipart/form-data" class="space-y-6" onsubmit="showLoader()">
 
     <!-- Upload de arquivo -->
@@ -37,7 +43,8 @@
         <textarea 
             name="email_text"
             class="w-full p-3 border rounded-lg focus:ring focus:ring-blue-300"
-            rows="5"
+            rows="6"
+            style="resize: none;"
         ></textarea>
     </div>
 
@@ -64,7 +71,7 @@ form.addEventListener('submit', () => {
     const btn = document.getElementById('submitBtn');
     const text = document.getElementById('btnText');
 
-    btn.disabled = true;          // desabilita o botão
-    text.textContent = "Processando..."; // altera o texto
+    btn.disabled = true;
+    text.textContent = "Processando..."; 
 });
 </script>
