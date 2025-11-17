@@ -3,75 +3,159 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Email NLP</title>
+    <title>AutoU Case - Classificador de Email</title>
     <!-- Importar o Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-100 min-h-screen flex items-center justify-center p-6">
 
-    <div class="bg-white shadow-xl rounded-xl p-10 w-full max-w-xl">
-        <h1 class="text-3xl font-bold text-gray-800 mb-6 text-center">
+    
+    <div class="bg-white/90 backdrop-blur shadow-2xl rounded-2xl p-10 w-full max-w-xl border border-gray-200">
+        <h1 class="text-3xl font-bold text-gray-900 mb-8 text-center">
             Classificador de Email
         </h1>
 
-    {% if error %}
-    <div class="mb-4 p-4 text-red-700  rounded-lg text-center">
-        {{ error }}
-    </div>
-    {% endif %}
+        <p class="text-center text-gray-600 text-sm bg-blue-50 border border-blue-200 p-3 rounded-lg mb-6">
+            Você pode enviar um arquivo <strong>.pdf</strong> ou <strong>.txt</strong>, <u>ou</u> digitar o texto manualmente.  
+            Ao preencher um dos campos, o outro será desativado automaticamente.
+        </p>
 
-<form action="/process" method="POST" enctype="multipart/form-data" class="space-y-6" onsubmit="showLoader()">
+        {% if error %}
+        <div class="mb-4 p-4 text-red-700 rounded-lg text-center ">
+            {{ error }}
+        </div>
+        {% endif %}
 
-    <!-- Upload de arquivo -->
-    <div>
-        <label class="block text-gray-700 font-medium mb-2">
-            Enviar arquivo (.pdf ou .txt):
-        </label>
-        <input 
-            type="file" 
-            name="file"
-            accept=".pdf,.txt"
-            class="w-full p-3 border rounded-lg bg-white"
+        <form 
+            action="/process" 
+            method="POST" 
+            enctype="multipart/form-data" 
+            class="space-y-6"
+            onsubmit="showLoader()"
         >
+
+            <div>
+                <label class="block text-gray-700 font-semibold mb-2">
+                    Enviar arquivo (.pdf ou .txt):
+                </label>
+
+                <div class="flex items-center gap-3">
+                    <input 
+                        type="file" 
+                        name="file"
+                        accept=".pdf,.txt"
+                        id="fileInput"
+                        class="w-full p-3 border rounded-lg bg-white cursor-pointer shadow-sm"
+                        onchange="updateFileName()"
+                    >
+                </div>
+
+                <div id="filePreview" class="mt-2 hidden">
+                    <div class="flex items-center justify-between bg-gray-100 border rounded-lg p-2">
+                        <span id="fileName" class="text-gray-700 text-sm"></span>
+
+                        <button 
+                            type="button"
+                            class="text-red-600 text-sm hover:underline"
+                            onclick="removeFile()"
+                        >
+                            Remover
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <label class="block text-gray-700 font-semibold mb-2">
+                    Texto do email:
+                </label>
+                <textarea 
+                    id="emailText"
+                    name="email_text"
+                    rows="6"
+                    class="w-full p-3 border rounded-lg shadow-sm bg-white focus:ring focus:ring-blue-300 outline-none"
+                    style="resize: none;"
+                    placeholder="Digite ou cole o conteúdo do email para análise..."
+                ></textarea>
+            </div>
+
+            <button 
+                type="submit"
+                class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg transition shadow-md"
+                id="submitBtn"
+            >
+                <span id="btnText">Processar Email</span>
+            </button>
+
+        </form>
+
     </div>
 
-    <!-- Texto manual -->
-    <div>
-        <label class="block text-gray-700 font-medium mb-2">
-            Texto do email:
-        </label>
-        <textarea 
-            name="email_text"
-            class="w-full p-3 border rounded-lg focus:ring focus:ring-blue-300"
-            rows="6"
-            style="resize: none;"
-        ></textarea>
-    </div>
+    <script>
+        const form = document.querySelector('form');
+        const fileInput = document.getElementById("fileInput");
+        const emailText = document.getElementById("emailText");
+
+        form.addEventListener('submit', () => {
+            const btn = document.getElementById('submitBtn');
+            const text = document.getElementById('btnText');
+
+            btn.disabled = true;
+            text.textContent = "Processando..."; 
+        });
+
+        function updateFileName() {
+            const input = document.getElementById("fileInput");
+            const preview = document.getElementById("filePreview");
+            const nameSpan = document.getElementById("fileName");
+
+            if (input.files.length > 0) {
+                nameSpan.textContent = input.files[0].name;
+                preview.classList.remove("hidden");
+            }
+        }
+
+        // Remove arquivo selecionado
+        function removeFile() {
+            const input = document.getElementById("fileInput");
+            const preview = document.getElementById("filePreview");
+
+            // limpa arquivo
+            input.value = ""; 
+            preview.classList.add("hidden");
+
+            // reativa textarea
+            emailText.disabled = false;
+            emailText.classList.remove("bg-gray-200", "cursor-not-allowed");
+
+            // reativa input file
+            fileInput.disabled = false;
+            fileInput.classList.remove("bg-gray-200", "cursor-not-allowed");
+        }
 
 
-<button 
-    type="submit"
-    class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg transition"
-    id="submitBtn"
->
-    <span id="btnText">Processar Email</span>
-</button>
+        fileInput.addEventListener("change", () => {
+        if (fileInput.files.length > 0) {
+            emailText.disabled = true;
+            emailText.classList.add("bg-gray-200", "cursor-not-allowed");
+        } else {
+            emailText.disabled = false;
+            emailText.classList.remove("bg-gray-200", "cursor-not-allowed");
+        }
+        });
 
-</form>
-
-    </div>
+        emailText.addEventListener("input", () => {
+            if (emailText.value.trim().length > 0) {
+                fileInput.disabled = true;
+                fileInput.classList.add("bg-gray-200", "cursor-not-allowed");
+            } else {
+                fileInput.disabled = false;
+                fileInput.classList.remove("bg-gray-200", "cursor-not-allowed");
+            }
+        });
+</script>
 
 </body>
 </html>
 
-<script>
-const form = document.querySelector('form');
 
-form.addEventListener('submit', () => {
-    const btn = document.getElementById('submitBtn');
-    const text = document.getElementById('btnText');
-
-    btn.disabled = true;
-    text.textContent = "Processando..."; 
-});
-</script>

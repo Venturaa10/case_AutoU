@@ -108,9 +108,11 @@ def classify_and_reply(text):
     Tarefas:
     1. Classificar como: "Produtivo" ou "Improdutivo".
     2. Criar uma resposta automática adequada:
-       - Se for produtivo → resposta objetiva e profissional.
-       - Se for improdutivo → resposta leve e cordial.
+        - Se for produtivo → resposta objetiva e profissional.
+        - Se for IMPRODUTIVO → resposta MUITO curta, cordial e que NÃO dá continuidade à conversa.
+            - PARA IMPRODUTIVO: NÃO fazer perguntas, NÃO pedir mais informações, NÃO sugerir continuidade.
 
+        
     Formato obrigatório:
     {{
         "categoria": "",

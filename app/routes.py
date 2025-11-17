@@ -63,6 +63,25 @@ def process_email():
         suggestion=suggestion
     )
 
+@bp.route("/generate-new", methods=["POST"])
+def generate_new():
+    """
+    Gera uma nova resposta alternativa usando o mesmo texto original.
+    """
+    data = request.get_json()
+    text = data.get("text", "").strip()
+
+    if not text:
+        return {"error": "Texto não enviado"}, 400
+
+    result = classify_and_reply(text)
+
+    # retorna apenas a nova resposta
+    return {
+        "suggestion": result.get("resposta", "Não foi possível gerar nova resposta.")
+    }
+
+
 
 # @bp.route("/process_json", methods=["POST"])
 # def process_email_json():
