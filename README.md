@@ -79,8 +79,6 @@ Abra:
 
 👉 **http://127.0.0.1:5000/**
 
---- 
-
 ### **6️⃣ Configurar a API Key do Gemini**
 
 1. Acesse: [AI Studio](https://aistudio.google.com/)  
@@ -93,7 +91,8 @@ Abra:
 
 ```env
 GEMINI_API_KEY="SUA_CHAVE_AQUI"
+```
 
-
+---
 Pronto! Aplicação estará configurada e rodando localmente. 🎉
-
+---
