@@ -1,7 +1,8 @@
+📄 Exemplos de emails/textos para teste do classificador
+
+Esses textos servem como referência para os avaliadores testarem o sistema, indicando exemplos de mensagens produtivas e improdutivas.
 
 ✅ Produtivos
-
-
 Bom dia, Ventura. Pode atualizar o relatório financeiro e me enviar até o meio-dia?
 
 Preciso que revise o contrato e encaminhe para o cliente ainda hoje.
@@ -13,7 +14,6 @@ Consegue subir a nova versão do sistema para produção?
 Pode preparar uma planilha com os dados dos últimos três meses?
 
 ❌ Improdutivos
-
 Ventura, viu meu último e-mail? Só confirmando se recebeu.
 
 E aí mano, bora almoçar mais cedo hoje?
