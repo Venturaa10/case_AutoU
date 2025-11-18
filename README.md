@@ -95,4 +95,7 @@ GEMINI_API_KEY="SUA_CHAVE_AQUI"
 
 ---
 Pronto! Aplicação estará configurada e rodando localmente. 🎉
+
+🚀 **Testar a aplicação online:** [Clique aqui](https://case-autou-jie3.onrender.com/)
+
 ---
