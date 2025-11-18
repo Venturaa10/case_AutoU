@@ -79,6 +79,21 @@ Abra:
 
 👉 **http://127.0.0.1:5000/**
 
----
+--- 
 
-Pronto! Aplicação estará rodando localmente. 🎉
+### **6️⃣ Configurar a API Key do Gemini**
+
+1. Acesse: [AI Studio](https://aistudio.google.com/)  
+2. Faça login com sua conta Google.  
+3. No canto inferior esquerdo, clique em **"Get API Key"**.  
+4. No canto superior direito, clique em **"Criar chave da API"**.  
+5. Dê um nome à chave e selecione **Criar** ou **Importar Projeto**.  
+6. Clique no botão de copiar ao lado da informação sobre o "nível da cota", **Copy API Key** para copiá-la.  
+7. No arquivo **`.env`** na raiz do projeto, adicione a variável de ambiente:
+
+```env
+GEMINI_API_KEY="SUA_CHAVE_AQUI"
+
+
+Pronto! Aplicação estará configurada e rodando localmente. 🎉
+
